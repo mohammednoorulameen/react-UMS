@@ -41,7 +41,7 @@ const EditProfile = () => {
   const [userExists , setuserExist] = useState()
   const navigate = useNavigate()
 
-
+ 
   useEffect(() => {
     
     const fetchUserDetailes  = async () =>{
@@ -87,6 +87,7 @@ const EditProfile = () => {
         if(values.profileImage){
           formData.append("profileImage",values.profileImage); 
         }                                                                     
+        
         
         const response = await userEditProfile(formData)
         if(response.status == 200){

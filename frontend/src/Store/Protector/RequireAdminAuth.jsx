@@ -1,12 +1,11 @@
 import React from 'react'
-import { UseAdminAuth } from "../Protector/UseAuth";
+import { UseAdminAuth } from "./UseAuth";
 import { Navigate } from 'react-router-dom';
-const RequireAdminAuth = () => {
+const RequireAdminAuth = ({ children }) => {
   
-    const {AdminDetails} = UseAdminAuth({children});
-
+    const {AdminDetails} = UseAdminAuth();
     if(!AdminDetails){
-        return <Navigate to={'/login'}/>
+        return <Navigate to={'/admin/adminlogin'}/>
     }
     return children
 }

@@ -1,5 +1,5 @@
 import { useFormik } from 'formik'
-import React from 'react'
+import React, { useState } from 'react'
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 import { adminLogin } from "../../../Services/AdminApi";
@@ -17,6 +17,7 @@ const validationSchema = Yup.object().shape({
 })
 
 const AdminLogin = () => {
+  const [AccessError, setAccessError] = useState('')
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -28,16 +29,23 @@ const AdminLogin = () => {
     }, 
 
     validationSchema: validationSchema,
-    onSubmit: async (admindata) =>{
+    onSubmit: async (admindata) =>{ 
       try {
-        const response = adminLogin(admindata);
+        const response = await adminLogin(admindata);
+
         if(response.status === 200 ){
+          // console.log('check respose ', response);
           dispatch(setAdminDetails(response.data.adminDetails))
-          navigate("/admindashbord")
-          localStorage.setItem("adminToken", response.data.token)
+          navigate("/admin/admindashbord")
+          localStorage.setItem("adminToken", response.data.adminToken)
+        }else {
+          toast.error(response.message);
         }
-        
       } catch (error) {
+        if(error.response && error.response.status == 401){
+            setAccessError("Anauthorized access")
+        }
+        console.log('Error logged in:', error.message);
         
       }
     }
@@ -50,17 +58,17 @@ const AdminLogin = () => {
         <div className=" flex flex-col items-center">
           <div className="text-center">
             <h1 className="text-2xl xl:text-4xl font-extrabold text-blue-900">
-              UMS -   ADMIN  
+              UMS - ADMIN  
             </h1>
             <p className="text-[12px] text-gray-500">
               Hey, enter your details to login your account
             </p>
           </div>
-          {/* {AccessError && (
+          {AccessError && (
         <div className="mt-1 text-base text-center text-red-600">
           {AccessError}
         </div>
-      )} */}
+      )}
           <form onSubmit={formik.handleSubmit}>
           
             <div className="w-full flex-1 mt-8">

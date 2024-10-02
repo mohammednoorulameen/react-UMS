@@ -20,7 +20,7 @@ export const userRegister = async (formData)=>{
 export const userlogin =async (userdata)=>{
     try {
          
-        const response = await userInstances.post('/api/users/login',userdata);
+        const response = await userInstances.post('/api/users/login',userdata); 
         return response
     } catch (error) {
         console.log('Error loggin in:', error.message);
@@ -52,6 +52,7 @@ export const userEditProfile = async (updateformData) =>{
         // console.log("check update",response);
         return response 
     } catch (error) {
+        console.log(error);
         
     }
 }

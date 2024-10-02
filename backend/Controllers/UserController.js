@@ -47,15 +47,13 @@ const UserLogin = async (req, res) => {
   try {
 
    const user = await User.findOne({email: req.body.email});
-    
      if (user) {
         const userPassword = req.body.password == user.password
         if(userPassword){
     const token = createToken(user._id);
     console.log("User logged successfully. Token", token,user);
 
-    return res.status(200).json({ message: "Login successfull", 
-      //  user,
+    return res.status(200).json({ message: "Login successfully", 
        token,
        userDetails:{
         name :  user.username,
@@ -63,7 +61,6 @@ const UserLogin = async (req, res) => {
         phone: user.phone,  
         image:`/Images/${user.profileImage}`
        },
-      //  status: true
          });
            
         }else{
@@ -79,7 +76,7 @@ const UserLogin = async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
-
+ 
 
 // user home 
 const userHome = async (req,res) =>{

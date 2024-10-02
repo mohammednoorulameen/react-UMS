@@ -3,9 +3,9 @@ import { UseAdminAuth } from "./UseAuth";
 import { Navigate } from 'react-router-dom';
 
 const RequireAdminLogin = ({children}) => {
-       const {adminDetails} = UseAdminAuth();
-       if(adminDetails){
-        return < Navigate to={"/admin/dashboard"} />
+       const {AdminDetails} = UseAdminAuth();
+       if(AdminDetails){
+        return < Navigate to={"/admin/admindashbord"} />
        }
        return children
 }
