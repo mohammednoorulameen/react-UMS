@@ -17,6 +17,7 @@ const Dashboard = () => {
   const [showModal, setShowModal] = useState(false);
   const [deleteUserId, setdeleteUserId] = useState(null);
   const [removeUserName, setdeleteUserName] = useState("");
+  const [searchTerm, setSearchTerm] = useState("")
   const navigate = useNavigate();
   const adminDetails = useSelector((state) => state.admin.adminDetails);
 
@@ -92,6 +93,21 @@ const Dashboard = () => {
   const closeModal = () => {
     setShowModal(false);
   };
+
+
+  // serach input box
+ 
+const handleSearchInput = (e) => {
+  setSearchTerm(e.target.value.toLowerCase());  
+};
+
+// Filter users 
+const filteredUsers = users.filter((user) =>
+  user.username.toLowerCase().includes(searchTerm) ||
+  user.email.toLowerCase().includes(searchTerm) ||
+  user.phone.includes(searchTerm)
+);
+
   return (
     <div>
       <div className="navbar">
@@ -124,6 +140,9 @@ const Dashboard = () => {
             />
           </div>
           <div className="desplegable">
+          <a onClick={handleLogout} type="submit">
+              profile
+            </a>
             <a onClick={handleLogout} type="submit">
               logout
             </a>
@@ -135,24 +154,29 @@ const Dashboard = () => {
           <div></div>
         </div>
       </div>
-
+  
       <div className="contenedor contenido-principal p-3">
         <div className="usuarios-barra">
           <h5>UMS ADMIN PANEL</h5>
-          <button id="nuevoUsuario">
+          <button id="nuevoUsuario" className=" text-sm">
             <i className="bi bi-plus"></i>{" "}
             <Link to={"/admin/adminadduser"}>Add User</Link>
           </button>
         </div>
-        <form action="search" method="post">
+        
+          
+            <form action="search" method="post">
           <div className="busqueda-barra">
             <input
               id="nombre"
               name="search"
+              value={searchTerm}
+              onChange={handleSearchInput}  
               type="search"
-              placeholder="search user"
+              placeholder="Search user"
             />
             <button type="submit">search</button>
+
           </div>
         </form>
         <table>
@@ -167,8 +191,8 @@ const Dashboard = () => {
             </tr>
           </thead>
           <tbody id="tablaDatos">
-            {users.length > 0 ? (
-              users.map((users, index) => (
+            {filteredUsers.length > 0 ? (
+              filteredUsers.map((users, index) => (
                 <tr key={users._id}>
                   <td>
                     <li>{index + 1}</li>

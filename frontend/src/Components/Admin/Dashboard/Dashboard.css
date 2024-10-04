@@ -72,20 +72,24 @@ input[type="button"]:disabled {
 .usuarios-barra {
   display: flex;
   justify-content: space-between;
+  margin-left: 10px;
+  border-radius: 0.3rem 0.3rem 0.3rem 0.3rem;
+  padding: 5px;
 }
 
 .busqueda-barra {
   display: flex;
   justify-content: space-between;
   margin-top: 8px;
+
 }
 
 input[type="search"] {
   float: right;
-  padding: 6px;
+  padding: 7px;
   border: none;
-  /* margin-top: 8px;
-    margin-right: 16px; */
+  /* margin-top: 8px; */
+    margin-right: 20px;
   font-size: 17px;
   background-color: #ddd;
   width: 100%;

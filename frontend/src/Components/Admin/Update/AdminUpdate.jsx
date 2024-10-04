@@ -105,11 +105,36 @@ const AdminUpdate = () => {
   //    const file = e.currentTarger.files[0]
   //    formik.setFieldValue('profileImage',file)
   // }
-
+  const handleBack = () =>{
+    navigate('/admin/admindashbord')
+  }
     return (
         <div>
         <div className="h-[100vh] items-center flex justify-center px-5 lg:px-0">
-        <div className="max-w-screen-xl bg-white border shadow sm:rounded-lg flex justify-center flex-1">
+          
+        <div className="max-w-screen-xl   shadow sm:rounded-lg flex justify-center flex-1">
+        <button
+          type="button"
+          onClick={handleBack}
+          className="mt-10 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        >
+          <svg
+            className="mt-2 w-3.5 h-3.5 me-2"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="currentColor"
+            viewBox="0 0 18 21"
+          >
+            <path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="3"
+              d="M13 5H1m0 0 4 4M1 5l4-4"
+            />
+          </svg>
+          Back
+        </button>
           <div className="lg:w-1/2 xl:w-5/12 p-6 sm:p-12">
             <div className=" flex flex-col items-center">
               <div className="text-center">

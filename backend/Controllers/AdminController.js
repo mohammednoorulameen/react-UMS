@@ -170,6 +170,10 @@ const AdminDeleteUser = async (req, res) => {
 const AdminUserRegister = async (req, res) =>{
  
   try {
+    const isExistUser =await User.findOne({ email: req.body.email })
+    if (isExistUser) {
+     return res.status(409).json({message: "user is already exist"})
+    }
          
   const newUser = new User({
     username: req.body.username,
