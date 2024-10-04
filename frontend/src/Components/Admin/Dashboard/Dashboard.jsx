@@ -12,6 +12,7 @@ import {
 import { clearUser } from "../../../Features/SetUser";
 import DeleteModal from "../DeleteModal/DeleteModal";
 
+
 const Dashboard = () => {
   const [users, setUsers] = useState([]);
   const [showModal, setShowModal] = useState(false);
@@ -20,7 +21,7 @@ const Dashboard = () => {
   const [searchTerm, setSearchTerm] = useState("")
   const navigate = useNavigate();
   const adminDetails = useSelector((state) => state.admin.adminDetails);
-
+    
   // get user detailes
   const dispatch = useDispatch();
   useEffect(() => {
@@ -50,9 +51,8 @@ const Dashboard = () => {
         console.log(error);
       }
     };
-    if (!adminDetails) {
-      fetchAdminDetails();
-    }
+    fetchAdminDetails();
+   
   }, [dispatch, adminDetails]);
 
   // navigate update
@@ -68,6 +68,8 @@ const Dashboard = () => {
     navigate("/admin/adminlogin");
   };
 
+
+ 
   // handle delete
 
   const handleDeleteModal = async () => {
@@ -108,6 +110,8 @@ const filteredUsers = users.filter((user) =>
   user.phone.includes(searchTerm)
 );
 
+
+
   return (
     <div>
       <div className="navbar">
@@ -140,9 +144,7 @@ const filteredUsers = users.filter((user) =>
             />
           </div>
           <div className="desplegable">
-          <a onClick={handleLogout} type="submit">
-              profile
-            </a>
+         
             <a onClick={handleLogout} type="submit">
               logout
             </a>
@@ -175,7 +177,7 @@ const filteredUsers = users.filter((user) =>
               type="search"
               placeholder="Search user"
             />
-            <button type="submit">search</button>
+            <button  type="submit">search</button>
 
           </div>
         </form>
@@ -256,8 +258,10 @@ const filteredUsers = users.filter((user) =>
         onClose={closeModal}
         onConfirm={handleDeleteModal}
         user={removeUserName}
-        // delete = { handleDeleteModal }
+        // 
       />
+    
+      
     </div>
   );
 };

@@ -101,6 +101,7 @@ const GetEdituserDetails = async (req, res) => {
 
 const AdminEdituser = async (req, res) => {
   try {
+  
     const id = req.params.id;
     const { username, email, phone } = req.body;
     const user = await User.findById(id);

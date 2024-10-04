@@ -21,6 +21,7 @@ const validationSchema = Yup.object().shape({
 })
 
 const AdminUpdate = () => {
+
   const navigate = useNavigate()
  const [user, setUser] = useState()
   const { id } = useParams() 
@@ -42,7 +43,7 @@ const AdminUpdate = () => {
     }
 
     if (id) {
-      fetchEditUserDetails() // Call the function if id exists
+      fetchEditUserDetails() 
     }
   }, [dispatch, id]) 
           
@@ -90,13 +91,13 @@ const AdminUpdate = () => {
             navigate('/admin/admindashbord')
             console.log('Admin updated user');
             
-            }else{
-              console.log(message.error);
             }
             
           }
         } catch (error) {
-          console.log('error ',error.message);
+          {
+            console.log('error', error.message);
+          }
         }
        }
       })
@@ -145,14 +146,7 @@ const AdminUpdate = () => {
                   Hey, update user deayailes
                 </p>
               </div>
-
-                {/* {userExists && (
-                  <div className='mt-1 text-base text-center text-red-600'>
-                    {userExists}
-                  </div>
-                )
-    
-                } */}
+              
     
     
              <form onSubmit={formik.handleSubmit}>

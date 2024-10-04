@@ -11,7 +11,6 @@ user_router.post('/api/users/login',UserController.UserLogin)
 
 user_router.get('/userHome',UserController.userHome)
 
-// user_router.post('/api/users/logout', UserController.userLogout)
 
 user_router.put('/userEditProfile',upload,UserController.userUpdateProfile)
 
