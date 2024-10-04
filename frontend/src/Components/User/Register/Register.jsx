@@ -9,7 +9,7 @@ const validationSchema = Yup.object().shape({
     .required("Name is required")
     .min(4, "Username must be at least 4 characters")
     .max(15, "Username cannot be more than 15 characters"),
-  email: Yup.string()
+  email: Yup.string() 
     .email("Invalid email format")
     .required("Email is required"),
   phone: Yup.string()

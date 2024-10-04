@@ -9,9 +9,13 @@ export const adminDetailsSlice = createSlice({
     reducers: {
         setAdminDetails:(state, action)=>{
             state.adminDetails = action.payload
+        },
+        clearAdmin:(state) =>{
+            state.adminDetails = null;
+            localStorage.removeItem('adminToken')
         }
     }
 })
 
-export const { setAdminDetails } = adminDetailsSlice.actions
+export const { setAdminDetails,clearAdmin } = adminDetailsSlice.actions
 export default adminDetailsSlice.reducer

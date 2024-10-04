@@ -59,13 +59,56 @@ export const setUserList = async () =>{
 
 export const AdminEditUser = async(formData,id)=>{
     try {
-        console.log('admn api check formdata',formData);
         
         const response = await adminInstances.put(`/admin/adminEdituser/${id}`,formData);
-        console.log("check this",response);
+        // console.log("check this",response);
         return response 
     } catch (error) {
         console.log('admin api error',error.message);
         
     }
+}
+
+// get delete username 
+
+export const Getdeleteusername = async (id) =>{
+   try {
+
+    const response = await adminInstances.get(`/admin/adminDeleteUsername/${id}`)   
+    return response
+   } catch (error) {
+    console.log('fetch delete user username adminapi',error.message);
+    
+   }
+}
+
+
+// admin delete user
+
+export const AdminDeleteUser = async (id)=>{
+    try {
+        
+        const response = await adminInstances.delete(`/admin/adminDeleteuser/${id}`)
+        console.log("check admin response",response);
+        
+        return response
+    } catch (error) {
+        console.log("admin api arror",error.message);
+        
+    }
+}
+
+// admin register user
+
+export const adminUserRegister = async(formData) =>{
+     try {
+        console.log(formData);
+        const response = await adminInstances.post('/admin/adminRegisterUser',formData)
+     return response
+     } catch (error) {
+        console.error('Error:', error);
+        console.log('Error message:', error.message);
+        throw error;
+        
+     }
 }

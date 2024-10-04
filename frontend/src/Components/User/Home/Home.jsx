@@ -1,5 +1,5 @@
 import { LogOut, Edit } from "lucide-react";
-import { logout, setUserDetails } from "../../../Features/SetUser";
+import { clearUser, setUserDetails } from "../../../Features/SetUser";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { getUserDetailes  } from "../../../Services/UserApi";
@@ -34,7 +34,7 @@ const Home = () => {
    try {
     // await  dispatch(setUserDetails(""));
     // await userLogout()
-    dispatch(logout());
+    dispatch(clearUser());
     navigate('/login')
    } catch (error) {
     console.error("Logout failed", error);

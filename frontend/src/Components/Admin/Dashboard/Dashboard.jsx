@@ -1,60 +1,97 @@
 import React, { useEffect, useState } from "react";
 import "./Dashboard.css";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setUserList } from "../../../Services/AdminApi";
-import { setAdminDetails } from "../../../Features/SetAdmin";
-import { getAdminDetails } from "../../../Services/AdminApi"; 
+import { setAdminDetails, clearAdmin } from "../../../Features/SetAdmin";
+import {
+  getAdminDetails,
+  AdminDeleteUser,
+  Getdeleteusername,
+} from "../../../Services/AdminApi";
+import { clearUser } from "../../../Features/SetUser";
+import DeleteModal from "../DeleteModal/DeleteModal";
 
 const Dashboard = () => {
   const [users, setUsers] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [deleteUserId, setdeleteUserId] = useState(null);
+  const [removeUserName, setdeleteUserName] = useState("");
   const navigate = useNavigate();
   const adminDetails = useSelector((state) => state.admin.adminDetails);
-  // get user detailes 
+
+  // get user detailes
   const dispatch = useDispatch();
   useEffect(() => {
     const fetchUserList = async () => {
       try {
         const response = await setUserList();
         setUsers(response.data.user);
-        
       } catch (error) {
         console.log("error fetching", error);
         navigate("/admin/adminlogin");
       }
-    }
-   
-      fetchUserList();
-    
+    };
 
+    fetchUserList();
 
-  // get admin details
-   
-  const fetchAdminDetails =async () =>{
-    try {
-      const response = await getAdminDetails()
-      console.log("dashboard",response);
-      
-      if(response.status == 200){
-        dispatch(setAdminDetails(response.data.adminDetails))
+    // get admin details
+
+    const fetchAdminDetails = async () => {
+      try {
+        const response = await getAdminDetails();
+        // console.log("dashboard",response);
+
+        if (response.status == 200) {
+          dispatch(setAdminDetails(response.data.adminDetails));
+        }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
+    };
+    if (!adminDetails) {
+      fetchAdminDetails();
     }
-  }
-  if(!adminDetails){
-    fetchAdminDetails()
-  }
-
   }, [dispatch, adminDetails]);
 
+  // navigate update
 
+  const handleUpdate = (userId) => {
+    navigate(`/admin/adminupdate/${userId}`);
+  };
 
-  // navigate update 
-   
-  const handleUpdate = (userId)=>{
-    navigate(`/admin/adminupdate/${userId}`)
-  }
+  // log out admin
+
+  const handleLogout = () => {
+    dispatch(clearAdmin());
+    navigate("/admin/adminlogin");
+  };
+
+  // handle delete
+
+  const handleDeleteModal = async () => {
+    const response = await AdminDeleteUser(deleteUserId);
+    if (response.status == 200) {
+      console.log("delete user", response);
+      setUsers(response.data.user);
+      dispatch(clearUser());
+      setShowModal(false);
+    }
+  };
+
+  // open modal and set userid to delete
+
+  const openModal = async (userId) => {
+    // get delete username
+    const response = await Getdeleteusername(userId);
+    setdeleteUserName(response.data.deleteusername);
+    setdeleteUserId(userId);
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
   return (
     <div>
       <div className="navbar">
@@ -79,12 +116,15 @@ const Dashboard = () => {
             /> */}
             <img
               className="w-full h-full rounded-full object-cover border-4 border-blue-500"
-              src={`http://localhost:3030${adminDetails?.image || "https://cdn-icons-png.flaticon.com/512/3177/3177440.png"}`}
+              src={`http://localhost:3030${
+                adminDetails?.image ||
+                "https://cdn-icons-png.flaticon.com/512/3177/3177440.png"
+              }`}
               alt="not"
             />
           </div>
           <div className="desplegable">
-            <a href="logout" type="submit">
+            <a onClick={handleLogout} type="submit">
               logout
             </a>
           </div>
@@ -100,7 +140,8 @@ const Dashboard = () => {
         <div className="usuarios-barra">
           <h5>UMS ADMIN PANEL</h5>
           <button id="nuevoUsuario">
-            <i className="bi bi-plus"></i> <a href="./addUser">Add User</a>
+            <i className="bi bi-plus"></i>{" "}
+            <Link to={"/admin/adminadduser"}>Add User</Link>
           </button>
         </div>
         <form action="search" method="post">
@@ -126,9 +167,7 @@ const Dashboard = () => {
             </tr>
           </thead>
           <tbody id="tablaDatos">
-            
             {users.length > 0 ? (
-              
               users.map((users, index) => (
                 <tr key={users._id}>
                   <td>
@@ -147,25 +186,31 @@ const Dashboard = () => {
                     {/* <li> {users.profileImage} </li> */}
                     {/* <li> */}
                     <img
-             
-               src={`http://localhost:3030${users.profileImage || '/default-profile.png'}`}
-               width="50"
-               height="50"
-               alt="not"
-            />
-                 
+                      src={`http://localhost:3030/Images/${
+                        users.profileImage || "/default-profile.png"
+                      }`}
+                      width="50"
+                      height="50"
+                      alt="not"
+                    />
                   </td>
-
-                 
 
                   <td className="acciones">
                     <button className="botonEditar">
-                      <a className="btn btn-sucess" role="button" onClick={()=> handleUpdate(users._id)}>
+                      <a
+                        className="btn btn-sucess"
+                        role="button"
+                        onClick={() => handleUpdate(users._id)}
+                      >
                         Update{" "}
                       </a>
                     </button>
                     <button className="botonEliminar">
-                      <a className="btn btn-danger" role="button" href="">
+                      <a
+                        className="btn btn-danger"
+                        role="button"
+                        onClick={() => openModal(users._id)}
+                      >
                         delete
                       </a>
                     </button>
@@ -177,10 +222,18 @@ const Dashboard = () => {
                 <td colSpan="6">No user fount</td>
               </tr>
             )}
-            
           </tbody>
         </table>
       </div>
+
+      {/* modal for delete confirmation */}
+      <DeleteModal
+        isVisible={showModal}
+        onClose={closeModal}
+        onConfirm={handleDeleteModal}
+        user={removeUserName}
+        // delete = { handleDeleteModal }
+      />
     </div>
   );
 };

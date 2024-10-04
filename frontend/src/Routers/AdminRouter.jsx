@@ -5,6 +5,7 @@ import AdminLoginPage from "../Pages/Admin/AdminLoginPage";
 import RequireAdminLogin from "../Store/Protector/RequireAdminLogin";
 import RequireAdminAuth from "../Store/Protector/RequireAdminAuth";
 import AdminUpdatePage from "../Pages/Admin/AdminUpdatePage";
+import AdminAddUserPage from "../Pages/Admin/AdminAddUserPage";
 
 const AdminRouter = () => {
   return (
@@ -34,6 +35,15 @@ const AdminRouter = () => {
               < AdminUpdatePage/>
             </RequireAdminAuth>
           }
+        />
+
+        <Route 
+        path="/adminadduser"
+        element = {
+          <RequireAdminAuth>
+            <AdminAddUserPage/>
+          </RequireAdminAuth>
+        }
         />
       </Routes>
     </div>

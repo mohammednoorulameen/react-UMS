@@ -41,8 +41,6 @@ export const getUserDetailes = async () =>{
     
 }
 
-
-
 // user update profile
 
 export const userEditProfile = async (updateformData) =>{
